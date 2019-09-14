@@ -27,24 +27,27 @@ class GmmConvModel(GnnModel):
         # TODO adapt to per-layer configurability
         self.conv_in = GMMConv(
             in_channels=self.config.feature_dimensionality,
-            out_channels=self.config.hidden_units,
+            out_channels=self.config.hidden_units[0],
             dim=self.config.pseudo_dimensionality,
-            bias=self.config.use_bias)
+            bias=self.config.use_bias,
+            kernel_size=self.config.kernel_size)
 
         self.hidden_layers = torch.nn.ModuleList()
         for i in range(self.config.hidden_layers):
             layer = GMMConv(
-                in_channels=self.config.hidden_units,
-                out_channels=self.config.hidden_units,
+                in_channels=self.config.hidden_units[i],
+                out_channels=self.config.hidden_units[i+1],
                 dim=self.config.pseudo_dimensionality,
-                bias=self.config.use_bias)
+                bias=self.config.use_bias,
+                kernel_size=self.config.kernel_size)
             self.hidden_layers.append(layer)
 
         self.conv_out = GMMConv(
-            in_channels=self.config.hidden_units,
+            in_channels=self.config.hidden_units[-1],
             out_channels=self.model_type.out_channels,
             dim=self.config.pseudo_dimensionality,
-            bias=self.config.use_bias)
+            bias=self.config.use_bias,
+            kernel_size=self.config.kernel_size)
 
     def forward(self, data):
         x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
@@ -65,7 +68,7 @@ class GmmConvModel(GnnModel):
         x = getattr(F, self.config.non_linearity)(x)
         self.write_to_variable_summary(x, 'in_layer', 'outputs')
         x = getattr(F, self.config.dropout_type)(
-            x, p=self.config.dropout_probs, training=self.training)
+            x, p=self.config.dropout_probs[0], training=self.training)
 
         for i, l in enumerate(self.hidden_layers):
             if self.training:
@@ -85,7 +88,7 @@ class GmmConvModel(GnnModel):
             x = getattr(F, self.config.non_linearity)(x)
             self.write_to_variable_summary(x, 'layer_{}'.format(i), 'outputs')
             x = getattr(F, self.config.dropout_type)(
-                x, p=self.config.dropout_probs, training=self.training)
+                x, p=self.config.dropout_probs[i+1], training=self.training)
 
         if self.training:
             self.write_to_variable_summary(
