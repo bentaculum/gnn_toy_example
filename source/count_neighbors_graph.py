@@ -114,7 +114,7 @@ class CountNeighborsGraph(MyGraph):
         # plt.title(
         # "Number of neighbors within euclidian distance {}.\nEach node displays 'pred:target'".format(
         # config.theta))
-        plt.text(0.7, 0.95, 'Accuracy: {0:.3f}'.format(acc), fontsize=16)
+        plt.text(0.7, 1.0, 'Accuracy: {0:.3f}'.format(acc), fontsize=16)
 
         self.add_to_plotting_style()
         img_path = os.path.join(
