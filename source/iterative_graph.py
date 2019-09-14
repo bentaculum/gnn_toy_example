@@ -1,12 +1,14 @@
-import torch
-import numpy as np
-import networkx as nx
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.colors as colors
-import os
+import torch  # noqa
+import numpy as np  # noqa
+import networkx as nx  # noqa
+import matplotlib  # noqa
+matplotlib.use('agg')  # noqa
+import matplotlib.pyplot as plt  # noqa
+import matplotlib.cm as cm  # noqa
+import matplotlib.colors as colors  # noqa
+import os  # noqa
 
-from my_graph import MyGraph
+from my_graph import MyGraph  # noqa
 
 
 class IterativeGraph(MyGraph):

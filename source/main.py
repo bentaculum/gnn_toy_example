@@ -121,13 +121,15 @@ def main(_config, _run, _log):
         # find latest state of model
         load_model_dir = os.path.join(
             config.root_dir, config.run_abs_path, config.model_dir)
+        _log.info(f'load_model_dir {load_model_dir}')
         checkpoint_versions = [name for name in os.listdir(
             load_model_dir) if name.endswith('.tar')]
         if 'final.tar' in checkpoint_versions:
             checkpoint_to_load = 'final.tar'
         else:
-            checkpoint_versions = [
-                x for x in checkpoint_versions if x.startswith('epoch')].sort()
+            checkpoint_versions = sorted([
+                x for x in checkpoint_versions if x.startswith('epoch')])
+            _log.info(f'checkpoint versions {checkpoint_versions}')
             checkpoint_to_load = checkpoint_versions[-1]
 
         _log.info('Loading checkpoint {} ...'.format(
