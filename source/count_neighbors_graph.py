@@ -109,10 +109,12 @@ class CountNeighborsGraph(MyGraph):
             pos_dict,
             labels=labels_dict,
             node_color=node_color,
-            font_size=10)
-        plt.title(
-            "Number of neighbors within euclidian distance {}.\nEach node displays 'pred:target'".format(
-                config.theta))
+            font_size=10,
+            width=0.2)
+        # plt.title(
+        # "Number of neighbors within euclidian distance {}.\nEach node displays 'pred:target'".format(
+        # config.theta))
+        plt.text(0.7, 0.95, 'Accuracy: {0:.3f}'.format(acc), fontsize=16)
 
         self.add_to_plotting_style()
         img_path = os.path.join(
@@ -135,4 +137,4 @@ class CountNeighborsGraph(MyGraph):
     def add_to_plotting_style(self):
         plt.tick_params(axis='x', which='both', bottom=True, labelbottom=True)
         plt.tick_params(axis='y', which='both', left=True, labelleft=True)
-        plt.grid(linestyle='--', color='gray')
+        plt.grid(linestyle='--', color='lightgray')
