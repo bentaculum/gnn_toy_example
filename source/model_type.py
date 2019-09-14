@@ -1,11 +1,13 @@
-import torch
-from torch.nn import functional as F
-from abc import ABC, abstractmethod
-import os
+import torch  # noqa
+from torch.nn import functional as F  # noqa
+from abc import ABC, abstractmethod  # noqa
+import os  # noqa
 
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np  # noqa
+import matplotlib
+matplotlib.use('agg')
+import matplotlib.pyplot as plt  # noqa
+import seaborn as sns  # noqa
 
 
 class ModelType(torch.nn.Module, ABC):

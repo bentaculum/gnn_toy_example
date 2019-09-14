@@ -1,10 +1,12 @@
-import torch
-from torch_geometric.data import Data
-import networkx as nx
-import matplotlib.pyplot as plt
-import os
+import torch  # noqa
+from torch_geometric.data import Data  # noqa
+import networkx as nx  # noqa
+import matplotlib  # noqa
+matplotlib.use('agg')  # noqa
+import matplotlib.pyplot as plt  # noqa
+import os  # noqa
 
-from my_graph import MyGraph
+from my_graph import MyGraph  # noqa
 
 
 class CountNeighborsGraph(MyGraph):

@@ -404,7 +404,7 @@ class Config:
                 'localhost',
                 'slowpoke1'],
             help='machine-dependent parameters to be imported, e.g. for connecting to the MongoDB')
-        self.default['machine'] = 'localhost'
+        self.default['machine'] = 'slowpoke1'
 
         self.parser.add_argument(
             '--msts',
@@ -439,7 +439,7 @@ class Config:
     def slowpoke1(self):
         return {
             'mongo_url': 'slowpoke1.int.janelia.org:27017',
-            'mongo_db': 'sacred',
+            'mongo_db': 'gnn_agglomeration_toy_runs',
         }
 
     def overwrite_defaults(self, config_filepath):
