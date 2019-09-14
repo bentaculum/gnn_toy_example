@@ -16,9 +16,9 @@ class SplineConvModel(GnnModel):
 
         # Params from the SplineCNN paper
         config.non_linearity = 'elu'
-        config.kernel_size = 4
-        config.hidden_units = 16
-        config.adam_weight_decay = 0.005
+        # config.kernel_size = 4
+        # config.hidden_units = 16
+        # config.adam_weight_decay = 0.005
 
         super(SplineConvModel, self).__init__(
             config=config,
@@ -35,7 +35,7 @@ class SplineConvModel(GnnModel):
 
         conv_in = SplineConv(
             in_channels=self.config.feature_dimensionality,
-            out_channels=self.config.hidden_units,
+            out_channels=self.config.hidden_units[0],
             dim=self.config.pseudo_dimensionality,
             kernel_size=self.config.kernel_size,
             norm=False,
@@ -46,8 +46,8 @@ class SplineConvModel(GnnModel):
 
         for i in range(self.config.hidden_layers):
             l = SplineConv(
-                in_channels=self.config.hidden_units,
-                out_channels=self.config.hidden_units,
+                in_channels=self.config.hidden_units[i],
+                out_channels=self.config.hidden_units[i+1],
                 dim=self.config.pseudo_dimensionality,
                 kernel_size=self.config.kernel_size,
                 norm=False,
@@ -56,7 +56,7 @@ class SplineConvModel(GnnModel):
             self.layers_list.append(l)
 
         conv_out = SplineConv(
-            in_channels=self.config.hidden_units,
+            in_channels=self.config.hidden_units[-1],
             out_channels=self.model_type.out_channels,
             dim=self.config.pseudo_dimensionality,
             kernel_size=self.config.kernel_size,
@@ -89,7 +89,7 @@ class SplineConvModel(GnnModel):
                 self.write_to_variable_summary(
                     x, 'layer_{}'.format(i), 'outputs')
                 x = getattr(F, self.config.dropout_type)(
-                    x, p=self.config.dropout_probs, training=self.training)
+                    x, p=self.config.dropout_probs[i], training=self.training)
             else:
                 x = self.model_type.out_nonlinearity(x)
                 self.write_to_variable_summary(
