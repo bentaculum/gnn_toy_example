@@ -261,7 +261,7 @@ class IterativeGraph(MyGraph):
         if config.class_label_feature:
             size_scaling = 500
         else:
-            size_scaling = 50
+            size_scaling = 80
 
         if self.x.dim() == 1:
             node_size = (self.x * size_scaling).tolist()
@@ -305,8 +305,8 @@ class IterativeGraph(MyGraph):
             g,
             pos=pos_dict,
             edgelist=self.ground_truth.tolist(),
-            edge_color='r',
-            width=5)
+            edge_color='lightgray',
+            width=6)
         nx.draw_networkx(
             g,
             pos_dict,
@@ -319,7 +319,8 @@ class IterativeGraph(MyGraph):
             font_size=10,
             ax=ax,
             with_labels=True,
-            node_size=node_size)
+            node_size=node_size,
+            width=2)
 
         plt.title(
             """Recovery of ground truth edges, based on 'descending diameter' and noisy affinities(edge widths).
